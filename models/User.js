@@ -22,11 +22,15 @@ const UserSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,
   },
 });
 
-//Creamos una variable llamada User que contenga el modelo, donde el primer argumento es siempre el user en minúscula y el segundo argumento sería el Schema creado.
-module.exports = User = mongoose.model("user", UserSchema);
+//Creamos una variable llamada User que contenga el modelo, donde el primer argumento es siempre el user en mayúscula y el segundo argumento sería el Schema creado.
+module.exports = User = mongoose.model("User", UserSchema);

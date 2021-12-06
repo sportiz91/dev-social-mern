@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://lasantonetax:chanchocareta69@devsocial2.xk6ih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://lasantonetax:chanchocareta69@devsocial2.xk6ih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
 }

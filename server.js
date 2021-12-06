@@ -6,6 +6,10 @@ const app = express();
 //Connect db:
 connectDB(); //Here we execute the function defined in db.js. This returns us a promise.
 
+//Init middleware: anteriormente necesitábamos instalar body-parser npm package, requerirlo y en vez de usar express.json, usar bodyParser.json.
+//En las versiones actuales de Express, el body-parser viene incluido. Esta línea nos permitirá obtener el req.body object que se envía como POST Request.
+app.use(express.json({ extended: false }));
+
 //Creamos un single endpoint para testear que nuestro servidor esté runneando correctamente.
 //res.send simplemente envía data al browser.
 app.get("/", (req, res) => {
