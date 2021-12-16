@@ -1,26 +1,28 @@
 //racf -> snippet para react arrow functional component. Diferente a rfc -> react functional component.
 //Por ahora tendremos static html. Luego tendremos un componente dinámico que se actualiza tomando state de redux, pero por ahora será estático.
+//En react no queremos usar los clásicos anchor tags. Lo que queremos usar son los links (que son anchor tags en el fondo), para pontear a nuestra App.
 
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   return (
     <div>
       <nav className="navbar bg-dark">
         <h1>
-          <a href="dashboard.html">
+          <Link to="/dashboard">
             <i className="fas fa-code"></i> DevConnector
-          </a>
+          </Link>
         </h1>
         <ul>
           <li>
-            <a href="developers.html">Developers</a>
+            <Link to="/developers">Developers</Link>
           </li>
           <li>
-            <a href="register.html">Register</a>
+            <Link to="/register">Register</Link>
           </li>
           <li>
-            <a href="login.html">Login</a>
+            <Link to="/login">Login</Link>
           </li>
         </ul>
       </nav>
