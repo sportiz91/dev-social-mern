@@ -17,6 +17,9 @@ export const setAlert =
     //Evaluará el switch como SET_ALERT.
     //Además, debemos mandar un payload, que es como la data. Payload será el mensaje que se pase como argumento
     //el tipo de alerta que se pasa como argumento y el id.
+
+    console.log(dispatch);
+
     dispatch({
       type: SET_ALERT,
       payload: { msg, alertType, id },

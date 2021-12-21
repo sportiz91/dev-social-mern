@@ -28,6 +28,8 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(...middleware))
 );
 
+// console.log(store);
+
 export default store;
 
 //No deberemos tocar nunca más el file del Store.

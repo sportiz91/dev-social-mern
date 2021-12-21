@@ -62,6 +62,7 @@ const Register = ({ setAlert }) => {
       //Esto lo que hará es pasarle el string al action (msg). Recordemos: setAlert(msg, alertType)
       //El alertType será danger. Recordemos que en el CSS, tenemos las clases alert-danger, alert-primary, etc.
       //Entonces, quiero que esa clase de CSS vaya cambiando dinámicamente.
+      console.log(setAlert);
       setAlert("Password do not match", "danger");
     } else {
       console.log(`SUCCESS! ${formData}`);

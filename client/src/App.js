@@ -15,7 +15,6 @@ import { Navbar } from "./components/layout/Navbar";
 import { Landing } from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import { Login } from "./components/auth/Login";
-import Alert from "./components/layout/Alert";
 import "./App.css";
 //Redux:
 //El provider proviene del react-redux package. Esto es lo que conecta React con Redux.
