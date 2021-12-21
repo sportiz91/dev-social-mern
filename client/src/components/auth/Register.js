@@ -14,8 +14,9 @@
 
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
 import PropTypes from "prop-types"; //impt -> shortcut para importar proptypes.
 import Alert from "../layout/Alert";
 import axios from "axios";
@@ -24,7 +25,7 @@ import axios from "axios";
 
 //Como estamos pasando como argumento del componente las props de la action que se trajo al componente, puedo usarla como prop.
 //prop.setAlert en este caso.
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   // console.log("re-render"); -> desactivar para ver la cantidad de re-renders del functional component.
   const [formData, setFormData] = useState({
     name: "",
@@ -65,7 +66,7 @@ const Register = ({ setAlert }) => {
       console.log(setAlert);
       setAlert("Password do not match", "danger");
     } else {
-      console.log(`SUCCESS! ${formData}`);
+      register({ name, email, password });
 
       //Todo este código es de ejemplo para mostrar como sería el API Hit desde el React Functional Component.
       //No obstante, luego no nos quedaremos esto, dado que queremos que toda esta acción se haga desde el redux.
@@ -101,6 +102,10 @@ const Register = ({ setAlert }) => {
     }
   };
 
+  if (isAuthenticated) {
+    return <Navigate replace to="/dashboard" />;
+  }
+
   return (
     <section className="container">
       <Alert />
@@ -116,7 +121,6 @@ const Register = ({ setAlert }) => {
             name="name"
             value={name}
             onChange={(e) => onChange(e)}
-            required
           />
         </div>
         <div className="form-group">
@@ -126,7 +130,6 @@ const Register = ({ setAlert }) => {
             placeholder="Email Address"
             value={email}
             onChange={(e) => onChange(e)}
-            required
           />
         </div>
 
@@ -142,7 +145,6 @@ const Register = ({ setAlert }) => {
             value={password}
             placeholder="Password"
             onChange={(e) => onChange(e)}
-            minLength="6"
           />
         </div>
         <div className="form-group">
@@ -152,7 +154,6 @@ const Register = ({ setAlert }) => {
             value={password2}
             placeholder="Confirm Password"
             onChange={(e) => onChange(e)}
-            minLength="6"
           />
         </div>
         <input
@@ -171,14 +172,20 @@ const Register = ({ setAlert }) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
 //setAlert será una propType.
 //En este caso setAlert es una function. Entonces quiero como shortcut ptf (de proptype function)
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
 //connect me sirve para conectar mi componente de React a Redux. Toma dos argumentos:
 //1. Cualquier estado que queremos mapear. Si queremos obtener state de alertas, profiles, etc. Eso va como primer parámetro.
 //En este caso irá null, dado que no queremos ningún state por el momento.
 //2. Cualquier action que queramos usar, en la forma de un objeto. Esto nos permitirá usar props.setAlert.
-export default connect(null, { setAlert })(Register);
+export default connect(mapStateToProps, { setAlert, register })(Register);

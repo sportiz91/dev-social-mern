@@ -9,12 +9,12 @@
 //Router: para que funcione el router tenemos que wrappear todo en el <Router> component.
 //Ojo que react-router-v6 tiene una actualización. Lo que antes era switch, ahora es Routes.
 
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar } from "./components/layout/Navbar";
+import Navbar from "./components/layout/Navbar";
 import { Landing } from "./components/layout/Landing";
 import Register from "./components/auth/Register";
-import { Login } from "./components/auth/Login";
+import Login from "./components/auth/Login";
 import "./App.css";
 //Redux:
 //El provider proviene del react-redux package. Esto es lo que conecta React con Redux.
@@ -31,19 +31,36 @@ import store from "./store";
 //El componente Alert irá encima de Routes. Routes (ex Switch) solo puede tener Route en su interior, entonces
 //Va arriba.
 
-const App = () => (
-  <Provider store={store}>
-    <Router>
-      <>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Landing />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/login" element={<Login />} />
-        </Routes>
-      </>
-    </Router>
-  </Provider>
-);
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+//En este caso, dado que tenemos acceso directo al store, puedo utilizar el método store.dispatch del objeto store.
+//En los casos donde no tengo acceso al store, tengo que conectar mi componente al Store a través de connect
+//Y utilizar el dispatch como prop del component.
+//Como segundo parámetro agregamos [] para decir que solo se cargue cuando se monta el componente (no cuando se re-render)
+const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
+  return (
+    <Provider store={store}>
+      <Router>
+        <>
+          <Navbar />
+          <Routes>
+            <Route exact path="/" element={<Landing />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/login" element={<Login />} />
+          </Routes>
+        </>
+      </Router>
+    </Provider>
+  );
+};
 
 export default App;
