@@ -28,8 +28,8 @@ const initialState = {
   user: null,
 };
 
-console.log("InitialState:");
-console.log(initialState);
+// console.log("InitialState:");
+// console.log(initialState);
 
 //Recordemos que el Reducer toma dos parámetros. El initialState y luego la acción que es la que se dispatchó previamente.
 //Si tenemos un REGISTER_SUCCESS, lo que querré hacer es poner el token en el localStorage.
@@ -72,7 +72,7 @@ export default function (state = initialState, action) {
     //Básicamente, no queremos tener un token inválido guardado en localStorage nunca.
     //El caso de LOGIN_FAIL será equivalente al de REGISTER_FAIL. Remueve el token, no está authenticado ni cargando.
     //LOGOUT también hace lo mismo. Remueve el token de localStorage, limpia el token y hacemos que el usuario no esté más autenticado.
-    case REGISTER_FAIL:
+    case REGISTER_FAIL: //uno abajo de otro = fall-through behaviour.
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:

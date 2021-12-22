@@ -15,6 +15,8 @@ import Navbar from "./components/layout/Navbar";
 import { Landing } from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Dashboard from "./components/dashboard/Dashboard";
+import PriRoute from "./components/routing/PriRoute";
 import "./App.css";
 //Redux:
 //El provider proviene del react-redux package. Esto es lo que conecta React con Redux.
@@ -50,14 +52,21 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <>
-          <Navbar />
-          <Routes>
-            <Route exact path="/" element={<Landing />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/login" element={<Login />} />
-          </Routes>
-        </>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Landing />} />
+          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/dashboard"
+            element={
+              <PriRoute>
+                <Dashboard />
+              </PriRoute>
+            }
+          />
+        </Routes>
       </Router>
     </Provider>
   );

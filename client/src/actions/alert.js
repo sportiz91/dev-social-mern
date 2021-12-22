@@ -18,7 +18,7 @@ export const setAlert =
     //Además, debemos mandar un payload, que es como la data. Payload será el mensaje que se pase como argumento
     //el tipo de alerta que se pasa como argumento y el id.
 
-    console.log(dispatch);
+    // console.log(dispatch);
 
     dispatch({
       type: SET_ALERT,

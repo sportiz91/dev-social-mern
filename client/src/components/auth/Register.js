@@ -4,11 +4,8 @@
 //Por lo tanto, dado que en los inputs tengo como atributo value las variables definidas, los inputs contendrán esos valores.
 //Para ver que cada vez que cambia el estado del functional component se produce un re-render, ver el console.log primero -> "re-render".
 
-//En última instancia vamos a querer una redux action para hacer la request al Back-End, pero por el momento, dado que no tenemos implementado Redux,
-//Lo haremos con React simplemente. Para eso, vamos a usar axios para hacer requests al Servidor.
-
 //Redux:
-//Para conectar el componente de React a Redux, lo puedo hacer a través de Connect. Connect es parte del redux-react package.
+//Para conectar el componente de React a Redux, lo puedo hacer a través de Connect. Connect es parte del react-redux package.
 //Además, querremos traer esa alerta a nuestro componente. Cuando importamos una action, lo que queremos hacer es pasarla como
 //Argumento del connect.
 
@@ -63,9 +60,11 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       //Esto lo que hará es pasarle el string al action (msg). Recordemos: setAlert(msg, alertType)
       //El alertType será danger. Recordemos que en el CSS, tenemos las clases alert-danger, alert-primary, etc.
       //Entonces, quiero que esa clase de CSS vaya cambiando dinámicamente.
-      console.log(setAlert);
+      // console.log(setAlert);
       setAlert("Password do not match", "danger");
     } else {
+      // console.log({ name, email, password }); //{name: 'Julio Ortiz', email: 'jcortiz54@gmail.com', password: '123456'}
+      // //Como podemos ver, devuelve un objeto.
       register({ name, email, password });
 
       //Todo este código es de ejemplo para mostrar como sería el API Hit desde el React Functional Component.
