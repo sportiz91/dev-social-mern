@@ -122,6 +122,10 @@
   &.alert-primary {
     @include set-background-color($primary-color);
   }
+
+  &.alert-success {
+    @include set-background-color($success-color);
+  }
 }
 
 //Badges:

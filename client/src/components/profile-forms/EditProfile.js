@@ -1,16 +1,16 @@
-//Necesitaremos algunas acciones. Acciones para crear el perfil, interactuar con el Servidor, obtener una respuesta, etc.
-//Cuando submitamos el formulario, queremos dispatchear una action.
-//Para usar el history object tengo que importar withRouter. Este history object nos permitirá redireccionar desde una redux action.
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { createProfile } from "../../actions/profile";
+import { createProfile, getCurrentProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
 
-//En este caso, vamos a desestructurar también el History Object. Esto se debe a que puedo acceder en el componente
-//a dicho objeto a través de props.history
-const CreateProfile = ({ createProfile }) => {
+//En este caso también traemos la createProfile action, dado que recordemos que se usa para los dos: create profile + edit (= update) profile.
+const EditProfile = ({
+  createProfile,
+  getCurrentProfile,
+  profile: { profile, loading },
+}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -30,20 +30,46 @@ const CreateProfile = ({ createProfile }) => {
 
   const [displaySocialInputs, setDisplaySocialInputs] = useState(false);
 
+  useEffect(() => {
+    getCurrentProfile();
+
+    //Con que alguno de los dos condicionales sea verdadero, vamos a dejar el campo del objeto vacío.
+    //Si está cargando, implica que no terminó de procesarse la request, o bien, que hubo un error en la misma.
+    //Entonces queda el campo vacío. Si no existe el campo en el state, también se tendrá que dejar vacío.
+    //loading por default es false. Cuando termina de procesarse la request de forma exitosa y se hace el dispatch
+    //de la acción, ahí cambia a true en el GET_PROFILE. Entonces, queremos que este useEffect se ejecute una vez
+    //que loading pase de true a false, es decir, que se termine de procesar la request de pedido del perfil.
+    setFormData({
+      company: loading || !profile.company ? "" : profile.company,
+      website: loading || !profile.website ? "" : profile.website,
+      location: loading || !profile.location ? "" : profile.location,
+      status: loading || !profile.status ? "" : profile.status,
+      skills: loading || !profile.skills ? "" : profile.skills.join(","),
+      githubusername:
+        loading || !profile.githubusername ? "" : profile.githubusername,
+      bio: loading || !profile.bio ? "" : profile.bio,
+      twitter: loading || !profile.social ? "" : profile.social.twitter,
+      facebook: loading || !profile.social ? "" : profile.social.facebook,
+      linkedin: loading || !profile.social ? "" : profile.social.linkedin,
+      youtube: loading || !profile.social ? "" : profile.social.youtube,
+      instagram: loading || !profile.social ? "" : profile.social.instagram,
+    });
+  }, [loading]);
+
   //Vamos a desestructurar el component state para usar todo como variable:
   const {
-    company, //ok
-    website, //ok
-    location, //ok
-    status, //ok
-    skills, //ok
-    githubusername, //ok
-    bio, //ok
-    twitter, //ok
-    facebook, //ok
-    linkedin, //ok
-    youtube, //ok
-    instagram, //ok
+    company,
+    website,
+    location,
+    status,
+    skills,
+    githubusername,
+    bio,
+    twitter,
+    facebook,
+    linkedin,
+    youtube,
+    instagram,
   } = formData;
 
   const onChange = (e) => {
@@ -52,7 +78,7 @@ const CreateProfile = ({ createProfile }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, navigate);
+    createProfile(formData, navigate, true);
   };
 
   return (
@@ -250,10 +276,16 @@ const CreateProfile = ({ createProfile }) => {
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-//En este caso particular, además del Connect, tenemos que wrappear el componente en el withRouter.
-//Caso contrario, no nos dejará pasar el History Object de react-router-dom.
-export default connect(null, { createProfile })(CreateProfile);
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  EditProfile
+);

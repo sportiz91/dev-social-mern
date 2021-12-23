@@ -11,7 +11,7 @@ export const getCurrentProfile = () => async (dispatch) => {
     const res = await axios.get("/api/profile/me"); //en este caso no tenemos que pasar un id ni nada por el estilo
     //el request sabrá que perfil traer por el token, que incluye el id cuando se desencripta.
 
-    console.log("here");
+    // console.log("here");
 
     dispatch({
       type: GET_PROFILE,

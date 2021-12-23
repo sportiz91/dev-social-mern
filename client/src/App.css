@@ -232,6 +232,11 @@
   color: #fff;
 }
 
+.alert.alert-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
 .badge {
   background-color: #343a40;
   color: #fff;
