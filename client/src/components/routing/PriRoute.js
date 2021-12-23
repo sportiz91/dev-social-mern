@@ -10,6 +10,10 @@ import { connect } from "react-redux";
 //Notar que PriRoute pregunta si NO estamos autenticados Y SI NO está cargando. Llegado ese caso, se carga la página de login, dado quee hay
 //que proteger la ruta. Sino, se carga el children prop, que contiene los childs components. El child component de PriRoute es <Dashboard />
 //Como podemos ver de App.js component.
+//Ver: https://dev.to/iamandrewluca/private-route-in-react-router-v6-lg5
+//Entonces, cualquier ruta que queramos proteger, podemos usar el PriRoute component, en vez del Route.
+//Acá entra en juego el children prop! debido que los children component de PriRoute irán cambiando a medida quiera proteger diferentes
+//Rutas, children considerará cualquiera de esos children component.
 const PriRoute = ({ auth: { isAuthenticated, loading }, children }) => {
   return !isAuthenticated && !loading ? (
     <Navigate replace to="/login" />

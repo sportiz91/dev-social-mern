@@ -1,7 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-export const Landing = () => {
+//Cuando uno está logueado, queremos ser incapaces de ver la Landing. Por eso,
+//Tendremos que hacer un Navigate al dashboard cada vez que se toca el link hacia la Landing.
+const Landing = ({ isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Navigate replace to="/dashboard" />;
+  }
   return (
     <div>
       <section className="landing">
@@ -26,3 +33,13 @@ export const Landing = () => {
     </div>
   );
 };
+
+Landing.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Landing);

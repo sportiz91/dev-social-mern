@@ -7,6 +7,10 @@
   margin: 1rem 0;
 }
 
+.mb-1 {
+  margin: 0 0 1rem;
+}
+
 .p-1 {
   padding: 1rem;
 }
@@ -21,6 +25,10 @@
 
 .my-2 {
   margin: 2rem 0;
+}
+
+.mb-2 {
+  margin: 0 0 2rem;
 }
 
 .p-2 {
@@ -39,6 +47,10 @@
   margin: 3rem 0;
 }
 
+.mb-3 {
+  margin: 0 0 3rem;
+}
+
 .p-3 {
   padding: 3rem;
 }
@@ -55,6 +67,10 @@
   margin: 4rem 0;
 }
 
+.mb-4 {
+  margin: 0 0 4rem;
+}
+
 .p-4 {
   padding: 4rem;
 }
@@ -69,6 +85,10 @@
 
 .my-5 {
   margin: 5rem 0;
+}
+
+.mb-5 {
+  margin: 0 0 5rem;
 }
 
 .p-5 {

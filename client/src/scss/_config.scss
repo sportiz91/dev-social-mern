@@ -46,6 +46,11 @@ $margins: (1, 2, 3, 4, 5);
     margin: #{$margin}rem 0;
   }
 
+  //Bottom margin:
+  .mb-#{$margin} {
+    margin: 0 0 #{$margin}rem;
+  }
+
   //All around padding:
   .p-#{$margin} {
     padding: #{$margin}rem;
