@@ -17,6 +17,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import PriRoute from "./components/routing/PriRoute";
+import CreateProfile from "./components/profile-forms/CreateProfile";
 import "./App.css";
 //Redux:
 //El provider proviene del react-redux package. Esto es lo que conecta React con Redux.
@@ -63,6 +64,15 @@ const App = () => {
             element={
               <PriRoute>
                 <Dashboard />
+              </PriRoute>
+            }
+          />
+          <Route
+            exact
+            path="/create-profile"
+            element={
+              <PriRoute>
+                <CreateProfile />
               </PriRoute>
             }
           />
