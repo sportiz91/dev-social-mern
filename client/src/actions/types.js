@@ -26,3 +26,5 @@ export const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 //Lo que tenemos que hacer es limpiar el perfil cuando hay un deslogueo.
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
+
+export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
