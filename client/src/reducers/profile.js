@@ -1,6 +1,11 @@
 //Vamos a tener acciones para: obtener el perfil, crear profile, actualizar profile, etc.
 
-import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from "../actions/types";
+import {
+  GET_PROFILE,
+  PROFILE_ERROR,
+  CLEAR_PROFILE,
+  UPDATE_PROFILE,
+} from "../actions/types";
 
 //Cuando nos loguemos a la página, se va a hacer una GET Request para obtener toda nuestra profile data.
 //Esa profile data irá en la propiedad profile del state. Además, siempre que visitemos el perfil de otro developer,
@@ -24,7 +29,10 @@ export default function (state = initialState, action) {
 
   switch (type) {
     //Para GET_PROFILE, cuando la request esté finalizada completamente, queremos poner la propiedad loading en false.
+    //Para UPDATE_PROFILE vamos a estar haciendo exactamente lo mismo que para GET_PROFILE. Eventualmente uno podría dejar solo el GET_PROFILE,
+    //Pero a los fines de ser más descriptivo, se usa UPDATE_PROFILE (Add Experience // Add Education).
     case GET_PROFILE:
+    case UPDATE_PROFILE:
       return {
         ...state,
         profile: payload,
@@ -34,7 +42,7 @@ export default function (state = initialState, action) {
     case PROFILE_ERROR:
       return {
         ...state,
-        error: payload,
+        errors: payload,
         loading: false,
       };
 

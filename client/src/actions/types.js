@@ -22,6 +22,7 @@ export const LOGOUT = "LOGOUT";
 //Consts relativas a profile action/reducers.
 export const GET_PROFILE = "GET_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 //Lo que tenemos que hacer es limpiar el perfil cuando hay un deslogueo.
 export const CLEAR_PROFILE = "CLEAR_PROFILE";

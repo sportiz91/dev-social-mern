@@ -85,3 +85,73 @@ export const createProfile =
       });
     }
   };
+
+//Add Experience Action:
+export const addExperience = (formData, navigate) => async (dispatch) => {
+  try {
+    //Dado que vamos a estar enviando data (llenar campos del formulario Add Experience), necesitamos agregar
+    //el config object donde determinemos que el tipo de data que vamos a estar enviando es "application/json" (headers).
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const res = await axios.put("/api/profile/experience", formData, config);
+
+    dispatch({
+      type: "UPDATE_PROFILE",
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Experience Added", "success"));
+
+    navigate("/dashboard");
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(err.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//Add Education Action:
+export const addEducation = (formData, navigate) => async (dispatch) => {
+  try {
+    //Dado que vamos a estar enviando data (llenar campos del formulario Add Education), necesitamos agregar
+    //el config object donde determinemos que el tipo de data que vamos a estar enviando es "application/json" (headers).
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const res = await axios.put("/api/profile/education", formData, config);
+
+    dispatch({
+      type: "UPDATE_PROFILE",
+      payload: res.data,
+    });
+
+    navigate("/dashboard");
+
+    dispatch(setAlert("Education Added", "success"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(err.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};

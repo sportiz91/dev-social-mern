@@ -19,6 +19,8 @@ import Dashboard from "./components/dashboard/Dashboard";
 import PriRoute from "./components/routing/PriRoute";
 import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
+import AddExperience from "./components/profile-forms/AddExperience";
+import AddEducation from "./components/profile-forms/AddEducation";
 import "./App.css";
 //Redux:
 //El provider proviene del react-redux package. Esto es lo que conecta React con Redux.
@@ -83,6 +85,24 @@ const App = () => {
             element={
               <PriRoute>
                 <EditProfile />
+              </PriRoute>
+            }
+          />
+          <Route
+            exact
+            path="/add-experience"
+            element={
+              <PriRoute>
+                <AddExperience />
+              </PriRoute>
+            }
+          />
+          <Route
+            exact
+            path="/add-education"
+            element={
+              <PriRoute>
+                <AddEducation />
               </PriRoute>
             }
           />
