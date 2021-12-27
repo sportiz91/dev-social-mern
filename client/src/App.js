@@ -33,10 +33,6 @@ import store from "./store";
 //De esta forma, todos los componentes que creemos luego, podrán acceder al State nube.
 //Al component Provider le tenemos que pasar la store como prop.
 
-//Redux:
-//El componente Alert irá encima de Routes. Routes (ex Switch) solo puede tener Route en su interior, entonces
-//Va arriba.
-
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 

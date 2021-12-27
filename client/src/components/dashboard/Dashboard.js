@@ -4,8 +4,7 @@
 //Para importar un react arrow functional component con proptypes, las siglas son: rafcp
 //Hasta este momento, supongamos que me logueo con usuario y contraseña válidos. Accedo a la página dashboard. Si luego
 //cierro sesión, y voy para atrás, volveré a la página de dashboard. Y la podré ver. No quiero que la podamos ver.
-//Para eso, vamos a crear un private route component. El componente será PrivateRoute.js!
-
+//Para eso, vamos a crear un private route component. El componente será PriRoute.js!
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";

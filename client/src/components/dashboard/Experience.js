@@ -46,25 +46,7 @@ const Experience = ({ experience, deleteExperience }) => {
             <td></td>
           </tr>
         </thead>
-        <tbody>
-          {experiences}
-          {/* <tr>
-            <td>Microsoft</td>
-            <td className="hide-sm">Senior Developer</td>
-            <td className="hide-sm">Oct 2011-Current</td>
-            <td>
-              <button className="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Sun Microsystems</td>
-            <td className="hide-sm">Senior Developer</td>
-            <td className="hide-sm">Oct 2004-Nov 2010</td>
-            <td>
-              <button className="btn btn-danger">Delete</button>
-            </td>
-          </tr> */}
-        </tbody>
+        <tbody>{experiences}</tbody>
       </table>
     </>
   );
@@ -75,4 +57,8 @@ Experience.propTypes = {
   deleteExperience: PropTypes.func.isRequired,
 };
 
+//Para este componente no vamos a estar haciendo ningún mapStateToProps, dado que todo state que necesitamos
+//Provendrá a través de props del componente dashboard (en este caso, el state experience).
+//Es decir, Dashboard component es el que tiene un mapStateToProps donde se trae toda la pieza
+//profile de Redux.
 export default connect(null, { deleteExperience })(Experience);

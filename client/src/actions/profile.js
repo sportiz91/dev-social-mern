@@ -26,15 +26,15 @@ export const getCurrentProfile = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status }, //err.response.statusText nos da el bad request por ej
+      //err.response.status nos daría el código del error (400 o 404).
     });
   }
 };
 
 //Crear o actualizar un perfil:
 //al createProfile action le pasaremos un argumento que es el formData. A raiz de eso le estaremos pegando al reducer que cree o actualice el perfil.
-//Otra cosa que queremos hacer es redireccionar una vez que submitimos el form. Vamos a pasar como segundo parámetro el history object que tiene un método
-//llamado push -> que nos redireccionará a un Client Side Route.
+//Otra cosa que queremos hacer es redireccionar una vez que submitimos el form.
 //Además, para saber si estamos actualizando o creando un perfil desde 0, vamos a tener un tercer parámetro: edit, que se setea a false by default (es decir,
 //por default estaremos creando un nuevo perfil). Se puede crear una función completamente separada para editar o actualizar el perfil, pero es muy parecida,
 //entonces conviene tener un tercer parámetro y listo.
