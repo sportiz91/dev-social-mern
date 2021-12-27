@@ -134,8 +134,12 @@ button {
     }
 
     .socials {
+      a {
+        color: inherit;
+      }
+
       i {
-        margin-right: 0.6rem;
+        margin-right: 0.9rem;
         cursor: pointer;
         @include transition-ease;
 

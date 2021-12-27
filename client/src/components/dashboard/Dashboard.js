@@ -24,7 +24,7 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
 
   //Quiero asegurarme que el perfil esté cargado y no sea nulo.
   //Si el perfil es nulo, queremos mostrar un "spinner" (GIF) o "graphic".

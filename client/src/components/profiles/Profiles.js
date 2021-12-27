@@ -11,7 +11,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   //Esto debería poner todos los perfiles en el State.
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [getProfiles]);
 
   return (
     <>
