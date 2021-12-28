@@ -238,6 +238,22 @@ button {
       flex-direction: column;
       justify-content: center;
 
+      .post-date {
+        color: #aaa;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+
+      &-buttons {
+        .comment-count {
+          background: $light-color;
+          color: $primary-color;
+          padding: 0.1rem 0.2rem;
+          border-radius: 5px;
+          font-size: 0.8rem;
+        }
+      }
+
       p {
         margin-bottom: 1rem;
       }
