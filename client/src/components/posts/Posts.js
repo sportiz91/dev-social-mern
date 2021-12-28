@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import Alert from "../layout/Alert";
 import PostItem from "./PostItem";
 import { getPosts } from "../../actions/post";
 
@@ -16,10 +17,11 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
     <Spinner />
   ) : (
     <section className="container">
+      <Alert />
       <h1 class="text-l text-primary">Posts</h1>
       <p class="lead">
         <i class="fas fa-user"></i>
-        Welcome to the community
+        {"  "} Welcome to the community
       </p>
 
       <div className="posts">
