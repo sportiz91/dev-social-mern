@@ -194,6 +194,11 @@ button {
 
   &-github {
     grid-area: git;
+
+    a {
+      color: inherit;
+    }
+
     h2 {
       margin-top: 2rem;
     }

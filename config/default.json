@@ -1,6 +1,6 @@
 {
     "mongoURI": "mongodb+srv://lasantonetax:chanchocareta69@devsocial2.xk6ih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     "jwtSecret": "mysecrettoken",
-    "githubClientId": "d3bf8489c03f112e16e8",
-    "githubSecret": "8d4dc91f4eca6ae8abfd5e5661d29699a1b39f0a"
+    "githubClientId": "882bfc9fd37680af8426",
+    "githubSecret": "e88f7c50d1d36963ff3a46fcf5d72fd871542fae"
 }
