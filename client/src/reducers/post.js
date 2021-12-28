@@ -4,6 +4,7 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
+  ADD_POST,
 } from "../actions/types";
 
 //Creando el initial state:
@@ -22,6 +23,15 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: payload,
+        loading: false,
+      };
+
+    //Lo que hacemos acá es agregar al array de posts, el nuevo post creado.
+    //Entonces, querremos hacer el estado del array anterior, y el nuevo post.
+    case ADD_POST:
+      return {
+        ...state,
+        posts: [payload, ...state.posts],
         loading: false,
       };
 

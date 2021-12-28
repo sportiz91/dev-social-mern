@@ -15,8 +15,10 @@ const PostItem = ({
   return (
     <div className="post bg-white my-1 p-1">
       <div className="post-img">
-        <img className="img-round" src={avatar} alt="doe-img" />
-        <h4 className="text-primary my-1">{name}</h4>
+        <Link to={`/profile/${user}`}>
+          <img className="img-round" src={avatar} alt="doe-img" />
+          <h4 className="text-primary my-1">{name}</h4>
+        </Link>
       </div>
       <div className="post-description">
         <p>{text}</p>
