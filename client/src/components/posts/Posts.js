@@ -1,4 +1,4 @@
-//Posts.js será el parent component. El useEffect lo vamos a necesitar para llamar a la acción getPosts que creamos.
+//Posts.js is the parent component.
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import PostForm from "./PostForm";
 import { getPosts } from "../../actions/post";
 
 const Posts = ({ getPosts, post: { posts, loading } }) => {
-  //Ni bien carga el componente, debería fetchear los posts de la API.
+  //As soon as component is loaded, fetch data.
   useEffect(() => {
     getPosts();
   }, [getPosts]);

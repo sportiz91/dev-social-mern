@@ -1,6 +1,3 @@
-//Necesitaremos algunas acciones. Acciones para crear el perfil, interactuar con el Servidor, obtener una respuesta, etc.
-//Cuando submitamos el formulario, queremos dispatchear una action.
-//Para usar el history object tengo que importar withRouter. Este history object nos permitirá redireccionar desde una redux action.
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -8,8 +5,6 @@ import { connect } from "react-redux";
 import { createProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
 
-//En este caso, vamos a desestructurar también el History Object. Esto se debe a que puedo acceder en el componente
-//a dicho objeto a través de props.history
 const CreateProfile = ({ createProfile }) => {
   const navigate = useNavigate();
 
@@ -30,20 +25,19 @@ const CreateProfile = ({ createProfile }) => {
 
   const [displaySocialInputs, setDisplaySocialInputs] = useState(false);
 
-  //Vamos a desestructurar el component state para usar todo como variable:
   const {
-    company, //ok
-    website, //ok
-    location, //ok
-    status, //ok
-    skills, //ok
-    githubusername, //ok
-    bio, //ok
-    twitter, //ok
-    facebook, //ok
-    linkedin, //ok
-    youtube, //ok
-    instagram, //ok
+    company,
+    website,
+    location,
+    status,
+    skills,
+    githubusername,
+    bio,
+    twitter,
+    facebook,
+    linkedin,
+    youtube,
+    instagram,
   } = formData;
 
   const onChange = (e) => {
@@ -254,6 +248,4 @@ CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
 };
 
-//En este caso particular, además del Connect, tenemos que wrappear el componente en el withRouter.
-//Caso contrario, no nos dejará pasar el History Object de react-router-dom.
 export default connect(null, { createProfile })(CreateProfile);

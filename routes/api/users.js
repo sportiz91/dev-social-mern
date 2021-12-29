@@ -1,36 +1,3 @@
-//Una cosa importante a destacar es que estamos quebrando nuestra App principal en diferentes recursos (users, auth, profile, posts, etc). Todo podríamos ponerlo en server.js
-//Pero dado que es una App larga, no tiene mucho sentido hacerlo así porque se pierde claridad y modularidad.
-//Para registrar nuevos usuarios, el usuario deberá ingresar 3 campos: nombre, email y password. Tenemos que hacer ciertas validaciones de que dichos campos ingresados
-//Por el usuario sean correctos. Para eso usaremos el package express-validator.
-//Lo que me permite hacer express-validator es agregar un parámetro adicional en nuestra request (parámetro del medio entre route y (req, res)) que sean las validaciones
-//Que debe pasar el campo. Check me permite agregar el campo a validar, como primer parámetro, y el mensaje personalizado de error en caso que no pase la validación,
-//Como segundo parámetro.
-//Por su parte, validationResult(req) -> toma como parámetro el request object y nos da como resultado un objeto que contiene un array con los errores (de las validaciones)
-//Que no se pasaron. Esto es útil dado que luego lo puedo enviar como json al Cliente.
-//Dentro de ese array de error tendré objetos, por cada validación que no se pasó. Las propiedades del objeto serán: msg: mensaje personalizado de error definido,
-//param: field que no pasó la validación (ej -> email, o name) y location (body) -> es decir, en donde le erra la validación. En este caso, en el body de la request.
-
-//Ejemplo: el ejemplo que se muestra a continuación presenta la respuesta al Cliente de parte del Servidor con los errores provenientes de la validación de fields no pasada.
-// {
-//   "errors": [
-//       {
-//           "msg": "Please include a valid email",
-//           "param": "email",
-//           "location": "body"
-//       },
-//       {
-//           "msg": "Please enter a password with 6 or more characters",
-//           "param": "password",
-//           "location": "body"
-//       }
-//   ]
-// }
-
-//Mongoose -> la forma más efectiva de actualizar data en nuestra base es loadeando los documentos (a través de algún método de model.find que nos devuelve una promesa)
-//realizando los cambios pertinentes con syntaxis vanilla js y luego aplicando instance.save() para guardar los cambios en el documento.
-//Esto es así, dado que el método model.save() nos da full validation + middleware. No obtendremos full validation si hacemos las actualizaciones a través de las queries:
-//Model.updateOne, etc...
-
 //Requiring modules:
 const express = require("express");
 const router = express.Router();
@@ -38,15 +5,12 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const { check, validationResult } = require("express-validator"); //Este módulo te permite agregar más parámetros a tus GET y POST Requests, que sean validaciones
-//que debe pasar la Request.
+const { check, validationResult } = require("express-validator");
 const User = require("../../models/User");
 
-//@route    POST api/users -> (@route post es el Request Type). Luego, api/users es el endpoint.
-//@desc     Register User. -> descripción de la ruta (ej -> agregar usuarios, likear posts, cualquier cosa que haga la ruta).
-//@access   Public -> (Public vs Private -> si necesitás un token para acceder a determinada route, ej para agregar un perfil - obviamente para esto necesitás estar autenticado -
-// Entonces a esa route necesitarás enviar un token para poder acceder. Caso contrario, obtendrás algo como "no autorizado"). En este caso tendremos una Public route, para la cual
-// No necesitamos un token de acceso.
+//@route    POST api/users
+//@desc     Register User
+//@access   Public
 router.post(
   "/",
   [
@@ -58,17 +22,15 @@ router.post(
     ).isLength({ min: 6 }),
   ],
   async (req, res) => {
-    // console.log(req.body); //req.body objeto de data que se enviará a esta route. Para poder usar el objeto req.body necesitamos inicializar el middleware del body-parser.
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() }); //Si hay errores en la validación, no querremos pasar un 200 status, porque eso implica que está todo bien. Querremos pasar un 400 que significa
-      //bad request
+      return res.status(400).json({ errors: errors.array() });
     }
 
     //If we arrive to this stage (if statement above didn't get executed), we have to register the user. In order to do that we have to:
 
-    console.log(req.body);
+    // console.log(req.body);
     //This is an example of the req.body object (in this case, we are parsing JSON data sent as the body):
     // {
     //   name: "Santoneta Cósmica",
@@ -159,6 +121,22 @@ router.post(
 
 //Exportamos el módulo.
 module.exports = router;
+
+//validation error object
+// {
+//   "errors": [
+//       {
+//           "msg": "Please include a valid email",
+//           "param": "email",
+//           "location": "body"
+//       },
+//       {
+//           "msg": "Please enter a password with 6 or more characters",
+//           "param": "password",
+//           "location": "body"
+//       }
+//   ]
+// }
 
 //Ahora que tenemos las rutas definidas para todos los .js, lo que tendremos que hacer es habilitar que server.js pueda leer dichas rutas
 //app.use("/api/users", require("./routes/api/users"));

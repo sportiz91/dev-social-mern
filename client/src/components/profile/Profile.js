@@ -1,6 +1,5 @@
-//Profile.js será el parent component para todo el resto.
-//Aquí traeremos el state, que luego, como una catarata, lo dispararemos hacia los componentes hijos.
-//Acá vamos a llamar a la getProfileById action. Vamos a obtener la ID de la Route (URL)
+//Profile.js is the parent component
+//State from redux is fetched in this component and passed as props to the children components.
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -15,8 +14,6 @@ import { getProfileById } from "../../actions/profile";
 import { useParams } from "react-router-dom";
 import auth from "../../reducers/auth";
 
-//Dado que estamos codeando un useEffect cuyo segundo parámetro es el getProfileById,
-//Entonces ese side effect se ejecutará as soon as se cargue el componente Profile.
 const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
   const { id } = useParams();
 
@@ -98,8 +95,6 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
-//Queremos el auth state también. Queremos ver si el user está loggedin. Si está logueado y el perfil que está viendo matchea,
-//Queremos tener un botón que le permita modificar el perfil.
 const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,

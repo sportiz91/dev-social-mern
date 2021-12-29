@@ -29,7 +29,7 @@ router.get("/", auth, async (req, res) => {
 //@route    POST api/auth
 //@desc     Authenticate user & get token
 //@access   Public
-//Validation: because we are dealing with a login, we are not gonna validate a name (or send a name). Only email and password. That's what we need to validate.
+//Validation: only email and password.
 //On the password field, we don't want to check the length field. We want to check if it exists (if the user send a password, later on we would check if it matches
 //the correct password).
 router.post(

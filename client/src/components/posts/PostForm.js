@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { addPost } from "../../actions/post";
 
 const PostForm = ({ addPost }) => {
-  const [text, setText] = useState(""); //Un post solo contiene un texto. Es por eso que solo debo completarle un string.
+  const [text, setText] = useState(""); //A post only contains a string. That's why local state is only a string
 
-  //onSubmit pasamos el formData como un objeto, dado que será el objeto que irá como segundo parámetro de la axios request.
+  //onSubmit passes the text state string argument as object, because is a parameter of formData to the axios request.
   return (
     <>
       <div className="alert alert-primary">

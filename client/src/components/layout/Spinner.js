@@ -1,5 +1,4 @@
-//Básicamente el Spinner cargará un GIF.
-
+//Spinner loads a gif.
 import React from "react";
 import spinner from "./spinner.gif";
 

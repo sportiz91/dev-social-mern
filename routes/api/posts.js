@@ -49,8 +49,7 @@ router.post(
 //@desc     Get all posts
 //@access   Private
 //In the previous route, we added the functionality to add a new Post. Now, we want to fetch the posts.
-//Originally we made this route Public, but we can't see the posts unless we are logged in, so let's make it private. It's up to you.
-//But the way we are building the Front-End -> you must be logged in to see the posts. Profiles are public but posts not.
+//The way we are building the Front-End -> you must be logged in to see the posts. Profiles are public but posts not.
 //The main reason behind signing up to the Dev Social Network is to communicate with other Developers.
 router.get("/", auth, async (req, res) => {
   try {
@@ -68,7 +67,7 @@ router.get("/", auth, async (req, res) => {
 //@desc     Get post by id
 //@access   Private
 //In this case, we are having the same issue that we got when getting a profile.
-//If they route the user passes is not a valid ObjectId, then, the catch part is gonna be executed.
+//If the route the user passes is not a valid ObjectId, then, the catch part is gonna be executed.
 //So, in the catch part, if the users enters a route which has an invalid ObjectId (err.kind === "ObjectId")
 //Then we are passing the same error -> Post not found. In every other case, we have a server error.
 router.get("/:id", auth, async (req, res) => {
@@ -138,7 +137,7 @@ router.put("/like/:id", auth, async (req, res) => {
     }
 
     //Check if the post has been already liked by the user.
-    //If the length of the new array is grater than 0, it means the post has been already liked by the user.
+    //If the length of the new array is greater than 0, it means the post has been already liked by the user.
     if (
       post.likes.filter((like) => like.user.toString() === req.user.id).length >
       0

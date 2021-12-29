@@ -3,8 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-//Cuando uno está logueado, queremos ser incapaces de ver la Landing. Por eso,
-//Tendremos que hacer un Navigate al dashboard cada vez que se toca el link hacia la Landing.
+//When user is loggedin, do not show landing. Everytime landing link get's pressed, redirect to dashboard.
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     return <Navigate replace to="/dashboard" />;

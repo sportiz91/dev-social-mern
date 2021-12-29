@@ -10,35 +10,28 @@ import {
   UPDATE_PROFILE,
 } from "./types";
 
-//Get current users profile:
-//Para este caso puntual, queremos hitear a la API /api/profile/me. Esta API me da el perfil de la persona logueada.
-//Es lógico que esta API sea privada, puesto que requiere authenticación y el JWT para ser devuelta.
-//Querremos llamar la getCurrentProfile action tan pronto como nos redirecciones a la route dashboard.
+//Get current users profile
+//getCurrentProfile gets called as soon as we are redirected the dashboard component.
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/profile/me"); //en este caso no tenemos que pasar un id ni nada por el estilo
-    //el request sabrá que perfil traer por el token, que incluye el id cuando se desencripta.
-
-    // console.log("here");
+    const res = await axios.get("/api/profile/me"); //returns logged in user profile. No need of id. JWT have user id encrypted.
 
     dispatch({
       type: GET_PROFILE,
-      payload: res.data, //recordemos que ese api HIT nos devuelve toda la profile data, la cual queremos almacenar como payload.
+      payload: res.data, //user profile data.
     });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }, //err.response.statusText nos da el bad request por ej
-      //err.response.status nos daría el código del error (400 o 404).
+      payload: { msg: err.response.statusText, status: err.response.status }, //err.response.statusText = "bad request", //err.response.status = 400.
     });
   }
 };
 
 //Get all profiles:
-//Importante! Cuando visitemos el perfil de otra persona, vamos a querer hacer el clearing de lo que actualmente hay en el objeto profile.
-//Esto se debe a que la pieza de state profile.profile nos guarda un single profile (puede ser el mío o el de una persona cuyo perfil estoy visitando)
 export const getProfiles = () => async (dispatch) => {
-  dispatch({ type: CLEAR_PROFILE });
+  dispatch({ type: CLEAR_PROFILE }); //firstly, we clear_profile. That's because when we are visiting another person's profile, we need to clear what is in profile
+  //state first.
 
   try {
     const res = await axios.get("/api/profile");
@@ -89,12 +82,9 @@ export const getGithubRepos = (username) => async (dispatch) => {
   }
 };
 
-//Crear o actualizar un perfil:
-//al createProfile action le pasaremos un argumento que es el formData. A raiz de eso le estaremos pegando al reducer que cree o actualice el perfil.
-//Otra cosa que queremos hacer es redireccionar una vez que submitimos el form.
-//Además, para saber si estamos actualizando o creando un perfil desde 0, vamos a tener un tercer parámetro: edit, que se setea a false by default (es decir,
-//por default estaremos creando un nuevo perfil). Se puede crear una función completamente separada para editar o actualizar el perfil, pero es muy parecida,
-//entonces conviene tener un tercer parámetro y listo.
+//Create or update profile:
+//Edit = false = creating new profile
+//Edit = true = updating existing profile.
 export const createProfile =
   (formData, navigate, edit = false) =>
   async (dispatch) => {
@@ -105,43 +95,35 @@ export const createProfile =
         },
       };
 
-      const res = await axios.post("/api/profile", formData, config);
+      const res = await axios.post("/api/profile", formData, config); //returns the profile updated or created.
 
-      //Una vez que creemos/actualicemos el nuevo perfil, lo único que haremos en términos de retornar valores en obtener el nuevo
-      //perfil creado. Con lo cual, tenemos que enviar un dispatch de GET_PROFILE.
       dispatch({
         type: GET_PROFILE,
         payload: res.data,
       });
 
-      //También quiero setear una alerta que me diga que el perfil fue actualizado o que el perfil fue creado.
-
+      //Dispatch a success alert "profile updated" or "profile created"
       dispatch(
         setAlert(edit ? "Profile Updated" : "Profile Created", "success")
       );
 
-      //Si estoy editando el perfil, no voy a redireccionar a otra página, voy a quedarme en la misma.
-      //Si estoy creando un nuevo perfil, voy a redireccionar a otra página.
-
-      //Las redirecciones en las actions son diferentes. No podemos redireccionar como en los React Components,
-      //Donde usábamos <Navigate />. Para hacer las redirecciones dentro de las actions types, tenemos que pasar
-      //El History Object que tiene el push method.
+      //If i'm creating a new profile, redirect to dashboard after success.
+      //If i'm redirecting in an action, I can't use <Navigate /> component.
+      //I have to use the useNavigate hook in this case.
       if (!edit) {
         navigate("/dashboard");
       }
     } catch (err) {
-      // console.log("we are here");
-
-      //Vamos a querer los validation errors en una alerta:
+      //We want validation errors in an alert
       const errors = err.response.data.errors;
 
       // console.log(errors);
 
+      //If errors array is truly, then show alerts. One for each error.
       if (errors) {
         errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
       }
 
-      //Para el error de la creación o actualización del perfil, simplemente vamos a dispatchear el PROFILE_ERROR error:
       dispatch({
         type: PROFILE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
@@ -152,8 +134,6 @@ export const createProfile =
 //Add Experience Action:
 export const addExperience = (formData, navigate) => async (dispatch) => {
   try {
-    //Dado que vamos a estar enviando data (llenar campos del formulario Add Experience), necesitamos agregar
-    //el config object donde determinemos que el tipo de data que vamos a estar enviando es "application/json" (headers).
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -187,8 +167,6 @@ export const addExperience = (formData, navigate) => async (dispatch) => {
 //Add Education Action:
 export const addEducation = (formData, navigate) => async (dispatch) => {
   try {
-    //Dado que vamos a estar enviando data (llenar campos del formulario Add Education), necesitamos agregar
-    //el config object donde determinemos que el tipo de data que vamos a estar enviando es "application/json" (headers).
     const config = {
       headers: {
         "Content-Type": "application/json",

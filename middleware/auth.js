@@ -8,7 +8,6 @@ module.exports = function (req, res, next) {
   const token = req.header("x-auth-token"); //This is the header key which we want to send the token along to.
 
   //2. Check if no token is present: if no token is present on the request, then we would send a not authorized error (401).
-
   if (!token) {
     return res.status(401).json({ msg: "No token, authorization denied" });
   }
@@ -16,13 +15,13 @@ module.exports = function (req, res, next) {
   //3. If there is token, then verify:
   //We need to decode the token that is sent along with the request. That can be done with jwt.verify. Jwt.verify(token, secret, {options}, (err, token) => {...})
   //If we pass a callback function, verify is called asynchronously.
-  //In this case, because we are not passing a callback function as argument, we are decoding the token synchronously.
-  //Once we decoded the token, we need to asing a value to the user.
+  //In this case, because we are not passing a callback function as an argument, we are decoding the token synchronously.
+  //Once we decoded the token, we need to asign a value to the user
   try {
-    const decoded = jwt.verify(token, config.get("jwtSecret"));
-    console.log(decoded);
+    const decoded = jwt.verify(token, config.get("jwtSecret")); //return value of jwt.verify will be an object with the payload.
+    // console.log(decoded);
 
-    req.user = decoded.user; //Remember we attached the user in the payload. So decoded has user property in it.
+    req.user = decoded.user; //req.user will get the decoded.user object property.
 
     // The structure of the payload is:
     // const payload = {

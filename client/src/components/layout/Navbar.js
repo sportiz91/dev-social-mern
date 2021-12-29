@@ -1,7 +1,3 @@
-//racf -> snippet para react arrow functional component. Diferente a rfc -> react functional component.
-//Por ahora tendremos static html. Luego tendremos un componente dinámico que se actualiza tomando state de redux, pero por ahora será estático.
-//En react no queremos usar los clásicos anchor tags. Lo que queremos usar son los links (que son anchor tags en el fondo), para pontear a nuestra App.
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -46,8 +42,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     </ul>
   );
 
-  //Si miramos el reducer, vemos que loading es true por default. Cuando fetcheamos el user u obtenemos un error,
-  //Loading se muestra como falso. Queremos asegurarnos que loading sea false antes de mostrar el menú.
+  //if loading is done, and isAuthenticated true, then show authLinks
   return (
     <nav className="navbar bg-dark">
       <h1>

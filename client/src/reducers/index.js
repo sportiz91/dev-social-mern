@@ -1,12 +1,11 @@
-//Dentro de index.js vamos a tener múltiples reducers.
-//No obstante, vamos a combinar todos en una solo:
+//index.js gets all the reducers, that are combined in combineReducers object.
 import { combineReducers } from "redux";
 import alert from "./alert";
 import auth from "./auth";
 import profile from "./profile";
 import post from "./post";
 
-//La función combine reducers toma como argumento un objeto que tiene todos los reducers que utilicemos.
+//combineReducers function takes as argument an object with all the reducers.
 export default combineReducers({
   alert,
   auth,

@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
 import Alert from "../layout/Alert";
 
-//Desestructuramos el login para no tener que hacer props.login
 const Login = ({ login, isAuthenticated }) => {
-  // console.log("re-render"); -> desactivar para ver la cantidad de re-renders del functional component.
+  // console.log("re-render"); -> check how many re-renders component has.
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,11 +15,6 @@ const Login = ({ login, isAuthenticated }) => {
   const { email, password } = formData;
 
   const onChange = (e) => {
-    // console.log(`e: ${e}`);
-    // console.log(`e.target: ${e.target}`);
-    // console.log(typeof e.target);
-    // console.log(`e.target.name: ${e.target.name}`);
-    // console.log(`e.target.value: ${e.target.value}`);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -29,12 +23,7 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
-  //Redirect if logged in:
-  //Como se ejecuta esta línea de código? Supongamos que cargamos la app inicialmente. No se ejecuta, dado que
-  //isAuthenticated = false. Ahora bien, supongamos que el usuario ingresa su mail y su password y se loguea.
-  //Dado que en el connect del component estamos determinando que nos queremos subscribir a los cambios del state
-  //isAuthenticated, entonces, como esta propiedad del state cambiará de false a true, el componente se re-render.
-  //Cuando se re-render y llega a esta línea, entonces isAuthenticated la dará true y entonces redireccionará.
+  //If user isAuthenticated, then, navigate to dashboard.
   if (isAuthenticated) {
     return <Navigate replace to="/dashboard" />;
   }
@@ -81,8 +70,7 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-//Del estado, me quiero agarrar solo el campo isAuthenticated, para saber si el usuario está autenticado o no.
-
+//Get only isAuthenticated piece of state from auth global state.
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
@@ -92,6 +80,4 @@ Login.propTypes = {
   isAuthenticated: PropTypes.bool,
 };
 
-//null -> mapStateToProps
-//mapDispatchToProps -> login function. Se pasa la función login como parámetro de mapDispatchToProps.
 export default connect(mapStateToProps, { login })(Login);

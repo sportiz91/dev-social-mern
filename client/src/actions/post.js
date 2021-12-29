@@ -29,10 +29,9 @@ export const getPosts = () => async (dispatch) => {
 };
 
 //Add Like:
-//Lo que nos retorna esta request es un array de likes.
 export const addLike = (id) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/posts/like/${id}`);
+    const res = await axios.put(`/api/posts/like/${id}`); //returns array of likes.
 
     dispatch({
       type: UPDATE_LIKES,
@@ -47,10 +46,9 @@ export const addLike = (id) => async (dispatch) => {
 };
 
 //Remove Like:
-//Una vez que removemos el like, el endpoint también nos devuelve el array de likes.
 export const removeLike = (id) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/posts/unlike/${id}`);
+    const res = await axios.put(`/api/posts/unlike/${id}`); //returns array of likes.
 
     dispatch({
       type: UPDATE_LIKES,
@@ -138,9 +136,8 @@ export const addComment = (postId, formData) => async (dispatch) => {
       `/api/posts/comment/${postId}`,
       formData,
       config
-    );
+    ); //returns comments array.
 
-    //Cuando agregamos un comentario, nos devuelve el comment array.
     dispatch({
       type: ADD_COMMENT,
       payload: res.data,
@@ -158,9 +155,8 @@ export const addComment = (postId, formData) => async (dispatch) => {
 //Delete Comment:
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
+    const res = await axios.delete(`/api/posts/comment/${postId}/${commentId}`); //returns comment array.
 
-    //Cuando agregamos un comentario, nos devuelve el comment array.
     dispatch({
       type: REMOVE_COMMENT,
       payload: commentId,

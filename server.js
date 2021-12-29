@@ -6,18 +6,14 @@ const app = express();
 //Connect db:
 connectDB(); //Here we execute the function defined in db.js. This returns us a promise.
 
-//Init middleware: anteriormente necesitábamos instalar body-parser npm package, requerirlo y en vez de usar express.json, usar bodyParser.json.
-//En las versiones actuales de Express, el body-parser viene incluido. Esta línea nos permitirá obtener el req.body object que se envía como POST Request.
-app.use(express.json({ extended: false }));
+app.use(express.json({ extended: false })); //This line allows us to get the req.body object that is sent in a POST Request.
 
-//Creamos un single endpoint para testear que nuestro servidor esté runneando correctamente.
-//res.send simplemente envía data al browser.
 app.get("/", (req, res) => {
   res.send("API Running!");
 });
 
-//Define routes. Con app.use lo que hacemos es bindear la middleware function (que en este caso sería el express.Router() de cada endpoint -> es decir, cada uno de esos módulos)
-//con los endpoints localhost:5000/api/users, localhost:5000/api/auth, localhost:5000/api/profile, localhost:5000/api/posts.
+//Define routes.
+//app.use binds middleware function (in this case, express.Router() of every endpoint)
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/profile", require("./routes/api/profile"));

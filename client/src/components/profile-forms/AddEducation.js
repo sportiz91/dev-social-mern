@@ -7,20 +7,19 @@ import { addEducation } from "../../actions/profile";
 const AddEducation = ({ addEducation }) => {
   const navigate = useNavigate();
 
-  //Si current es true, quiero tener el campo to del objeto disableado. Si chequemaos la current box implica que todavía trabajamos ahí.
+  //If current is true, then "to" field is disabled.
   const [formData, setFormData] = useState({
-    school: "", //ok
-    degree: "", //ok
-    fieldofstudy: "", //ok
-    from: "", //ok
-    to: "", //ok
-    current: false, //ok
-    description: "", //ok
+    school: "",
+    degree: "",
+    fieldofstudy: "",
+    from: "",
+    to: "",
+    current: false,
+    description: "",
   });
 
   const [toDateDisabled, setToDateDisabled] = useState(false);
 
-  //Desestructuramos el objeto para tener las propiedades del mismo en variables.
   const { school, degree, fieldofstudy, from, to, current, description } =
     formData;
 

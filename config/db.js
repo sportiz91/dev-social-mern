@@ -1,9 +1,10 @@
+//This script connects the whole app to the db.
 //Requiring packages
 const mongoose = require("mongoose");
 const config = require("config");
 const db = config.get("mongoURI"); //once you required the config package, then you can use the .get method and determining between brackets the value you wanna import.
 
-//Connecting to the server. Because we want a function to hit in server.js to connect to the server, we need a function in here.
+//Connecting to the server. Because we want a function to use in server.js to connect to the server, we need a function in here.
 //it's an async function because the return value will be a promise. Inside the function we are running the mongoose.connect, but we wanna put it inside a try catch.
 //If there's some error, we can catch it.
 //When we use async await syntax, mostly we are wrapping it inside a try catch block.

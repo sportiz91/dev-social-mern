@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
 
-//En este caso también traemos la createProfile action, dado que recordemos que se usa para los dos: create profile + edit (= update) profile.
+//createProfile action is used by both CreateProfile and EditProfile.
 const EditProfile = ({
   createProfile,
   getCurrentProfile,
@@ -33,12 +33,9 @@ const EditProfile = ({
   useEffect(() => {
     getCurrentProfile();
 
-    //Con que alguno de los dos condicionales sea verdadero, vamos a dejar el campo del objeto vacío.
-    //Si está cargando, implica que no terminó de procesarse la request, o bien, que hubo un error en la misma.
-    //Entonces queda el campo vacío. Si no existe el campo en el state, también se tendrá que dejar vacío.
-    //loading por default es false. Cuando termina de procesarse la request de forma exitosa y se hace el dispatch
-    //de la acción, ahí cambia a true en el GET_PROFILE. Entonces, queremos que este useEffect se ejecute una vez
-    //que loading pase de true a false, es decir, que se termine de procesar la request de pedido del perfil.
+    //Loading true -> request not proccesed or error. Form data field empty.
+    //profile.x not exist -> Form data field empty.
+    //By default, loading === true. When request ended, loading === false.
     setFormData({
       company: loading || !profile.company ? "" : profile.company,
       website: loading || !profile.website ? "" : profile.website,
@@ -56,7 +53,6 @@ const EditProfile = ({
     });
   }, [loading]);
 
-  //Vamos a desestructurar el component state para usar todo como variable:
   const {
     company,
     website,

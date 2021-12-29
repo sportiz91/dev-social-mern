@@ -2,16 +2,14 @@
 const moongose = require("mongoose");
 const Schema = moongose.Schema;
 
-//name -> not the name of the post. The name of the user that created the post.
-//I want to have the option to NOT delete posts if you don't want to. If the users deletes his account, I want
-//To have the option to not delete the posts if I want to just keep it.
-//So, it's easier if we have the avatar in here that shows his name and we don't have to dig in the users collection.
-//We are gonna have a system to like and remove your like.  So, we are going to create an array of likes of certain post.
-//And the array of likes it's gonna have the users that liked the post in different objects. Because the user is of type:
-//Schema.Types.ObjectId, we can reference the user in the user DB to identify it. Furthermore, because we identified users with
-//His ids, one user can only like the post once. He can't be clicking again and again to like more than once.
-//We are doing the same with comments. In the comments we not only have the user that commented, but the text, name & avatar and date of comment too.
-//As the last field of the post, we want the date of the post.
+//user -> User id that created the post (User model)
+//text -> Text of the post
+//name -> Name of the user that created the post
+//avatar -> image of the user taht created the post (we want avatar in here because if we delete the account we want to be able to see his posts nonetheless)
+//likes -> array of objects. Every object contains the _id of the user that liked the post (referencing to _id of User model). Like = adding a new id object to the
+//array of likes. Unlike = deleting some object from the array of id objects.
+//comments -> array of objects. Every object has: the user _id (User model), text of post, name & avatar of the commenter, and date of comment.
+//date of post.
 const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
