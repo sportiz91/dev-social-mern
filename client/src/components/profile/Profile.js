@@ -30,7 +30,7 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
         <Spinner />
       ) : (
         <>
-          <Link to="/profiles" className="btn ">
+          <Link to="/profiles" className="btn fit-block">
             Back To Profiles
           </Link>
 

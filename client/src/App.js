@@ -24,6 +24,7 @@ import AddEducation from "./components/profile-forms/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 import "./App.css";
 //Redux:
 //El provider proviene del react-redux package. Esto es lo que conecta React con Redux.
@@ -113,6 +114,15 @@ const App = () => {
             element={
               <PriRoute>
                 <Posts />
+              </PriRoute>
+            }
+          />
+          <Route
+            exact
+            path="/posts/:id"
+            element={
+              <PriRoute>
+                <Post />
               </PriRoute>
             }
           />

@@ -87,6 +87,9 @@
 
   &.btn-danger {
     @include set-background-color($danger-color);
+    &.fit {
+      width: fit-content;
+    }
 
     &:hover {
       background-color: lighten($danger-color, 15);
