@@ -1,1 +1,1 @@
-web: npm pro
+web: npm start

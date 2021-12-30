@@ -10,9 +10,7 @@ const db = config.get("mongoURI"); //once you required the config package, then 
 //When we use async await syntax, mostly we are wrapping it inside a try catch block.
 const connectDB = async () => {
   try {
-    await mongoose.connect(db, {
-      useNewUrlParser: true,
-    });
+    await mongoose.connect(db);
     console.log("MongoDB Connected...");
   } catch (err) {
     console.log(err.message); //the error object that we pass to the catch block has a message property.
