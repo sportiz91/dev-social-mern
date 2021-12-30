@@ -18,7 +18,7 @@ app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/posts", require("./routes/api/posts"));
 
 //Serve Static Assets in production:
-if (proccess.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   //Set Static Folder -> in Express we can determine certain folder to be the Static Folder.
   //We want to be the index.html from /client/build/index.html the file we are gonna serve in production.
   app.use(express.static("client/build")); //We determine that the client/build folder to be the static
