@@ -4,7 +4,7 @@ import { SET_ALERT, REMOVE_ALERT } from "../actions/types";
 //initialState is an array because we can have more than one alert.
 const initialState = [];
 
-export default function (state = initialState, action) {
+const alert = function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -17,4 +17,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default alert;

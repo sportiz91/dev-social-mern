@@ -24,7 +24,7 @@ const initialState = {
 // console.log(initialState);
 
 //When REGISTER_SUCCESSS or LOGIN_SUCCESS, the user's token gets saved in localStorage.
-export default function (state = initialState, action) {
+const auth = function (state = initialState, action) {
   const { type, payload } = action;
 
   //This reducer also handles USER_LOADED & AUTH_ERROR that comes from the initial loading of the app.
@@ -65,4 +65,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default auth;

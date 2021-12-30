@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //Parent post component
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";

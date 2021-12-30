@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //Profile.js is the parent component
 //State from redux is fetched in this component and passed as props to the children components.
 import React, { useEffect } from "react";
@@ -12,7 +13,6 @@ import ProfileEducation from "./ProfileEducation";
 import ProfileGithub from "./ProfileGithub";
 import { getProfileById } from "../../actions/profile";
 import { useParams } from "react-router-dom";
-import auth from "../../reducers/auth";
 
 const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
   const { id } = useParams();
