@@ -1,13 +1,15 @@
 //For every form i'll be using local state.
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
-import PropTypes from "prop-types";
 import Alert from "../layout/Alert";
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   // console.log("re-render"); -> see the # of re-render of the component.
   const [formData, setFormData] = useState({
     name: "",
@@ -27,11 +29,11 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert("Password do not match", "danger");
+      dispatch(setAlert("Password do not match", "danger"));
     } else {
       // console.log({ name, email, password }); returns -> {name: 'Name', email: 'email@gmail.com', password: 'xxxxxx'}
       //We pass the variables as an object with variables cuz register function desestructure an object.
-      register({ name, email, password });
+      dispatch(register({ name, email, password }));
     }
   };
 
@@ -108,14 +110,4 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-Register.propTypes = {
-  setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
-};
-
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default Register;

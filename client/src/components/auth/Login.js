@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/auth";
 import Alert from "../layout/Alert";
 
-const Login = ({ login, isAuthenticated }) => {
-  // console.log("re-render"); -> check how many re-renders component has.
+const Login = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,7 +21,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    login(email, password);
+    dispatch(login(email, password));
   };
 
   //If user isAuthenticated, then, navigate to dashboard.
@@ -71,14 +72,4 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-//Get only isAuthenticated piece of state from auth global state.
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
-};
-
-export default connect(mapStateToProps, { login })(Login);
+export default Login;
