@@ -12,7 +12,7 @@ import {
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
-//Load user: load loggedin user as soon as app is run.
+//Load user: load loggedin user as soon as app is running.
 export const loadUser = () => async (dispatch) => {
   //Checking if token exists. If it exists, put it on the global header to use it in every request.
   if (localStorage.token) {
@@ -20,14 +20,23 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
+    //Requisites of request: token on "x-auth-token" header (which we have previously saved in setAuthToken())
     const res = await axios.get("/api/auth"); //obtain logged in user.
 
     // console.log(res);
-    // console.log(res.data);
+    // This console.log outputs:
+    // {config: ..., data: {avatar: ..., name: ..., email: ..., date: ..., _id: ...}} -> everything except the password.
 
+    // console.log(res.data);
+    // This console.log outputs:
+    //{avatar: ..., name: ..., email: ..., date: ..., _id: ...}
+
+    //That means the payload needs to be the res.data that is sent to the reducer.
+
+    //After the async request to our self made RESTFUL API, we can dispatch the action to the auth reducer.
     dispatch({ type: USER_LOADED, payload: res.data }); //payload = user.
   } catch (err) {
-    dispatch({ type: AUTH_ERROR });
+    dispatch({ type: AUTH_ERROR }); //most common case this gets executed is because there's no token in x-auth-token = no user loggedin.
   }
 };
 
@@ -35,7 +44,7 @@ export const loadUser = () => async (dispatch) => {
 export const register =
   ({ name, email, password }) =>
   async (dispatch) => {
-    // console.log(`name: ${name}, email: ${email}, password: ${password}`); Como podemos observar, tenemos las propiedades del objeto en variables.
+    // console.log(`name: ${name}, email: ${email}, password: ${password}`); saving in variables.
 
     //Because we are posting data to the server, we want to create a config object with the content-type.
     const config = {
@@ -48,6 +57,7 @@ export const register =
     // console.log(body);
 
     try {
+      //Requisites: headers -> "Content-Type: application/json", JSON body with name, email, password.
       const res = await axios.post("/api/users", body, config);
 
       // console.log(res);
@@ -66,10 +76,12 @@ export const register =
       //Token is saved on localStorage and then we load newly registered user.
       dispatch(loadUser());
     } catch (err) {
-      const errors = err.response.data.errors; // [{}, {}, {}, ... ,]
+      const errors = err.response.data.errors; // [{}, {}, {}, ... ,] -> this is the actual errors array with object of errors defined by validationResult()
       // console.log(errors);
-      // console.log(err); Nos tira el mensaje de error.
-      // console.log(err.response); Nos tira el objeto err -> {config: ..., data: errors: [{value: ..., msg: "please include a valid email"}, {}, {}, ]}
+      // console.log(err); error mensaje
+      // console.log(err.response); -> {config: ..., data: errors: [{value: ..., msg: "please include a valid email"}, {}, {}, ]}
+      // Remember that the validationResult function of the express-validator package defines an array called errors, which contains objects
+      // With different properties of the error.
       // console.log(err.response.data); //{errors: [{}, {}, {}, ... ,]}
 
       //Check if errors array is truly.
@@ -98,18 +110,20 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
+      payload: res.data, //res.data = token
     });
 
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-    console.log(errors);
+    const errors = err.response.data.errors; //array of errors as defined by validationResult() from express-validator.
+    // console.log(errors);
 
+    //Setting alerts for every validation of the /api/auth api hit not passed.
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
 
+    //LOGIN_FAIL is the same as REGISTER_FAIL, but we want to be more descriptive.
     dispatch({
       type: LOGIN_FAIL,
     });

@@ -18,6 +18,8 @@ const Post = ({ getPost, post: { post, loading } }) => {
     getPost(id);
   }, [getPost]);
 
+  //as we can see, we can utilize the PostItem component made previously without the buttons of like, unlike, discussion and delete comment.
+  //showActions(false)
   return loading || post === null ? (
     <Spinner />
   ) : (

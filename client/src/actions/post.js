@@ -14,7 +14,8 @@ import {
 //Get Posts:
 export const getPosts = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/posts");
+    //Requisites: token
+    const res = await axios.get("/api/posts"); //Returns array of posts (where every post is an object with different fields)
 
     dispatch({
       type: GET_POSTS,
@@ -31,7 +32,7 @@ export const getPosts = () => async (dispatch) => {
 //Add Like:
 export const addLike = (id) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/posts/like/${id}`); //returns array of likes.
+    const res = await axios.put(`/api/posts/like/${id}`); //returns array of likes of the post.
 
     dispatch({
       type: UPDATE_LIKES,
@@ -65,7 +66,7 @@ export const removeLike = (id) => async (dispatch) => {
 //Delete Post:
 export const deletePost = (id) => async (dispatch) => {
   try {
-    await axios.delete(`/api/posts/${id}`);
+    await axios.delete(`/api/posts/${id}`); //Returns: {msg: "Post deleted"}
 
     dispatch({
       type: DELETE_POST,
@@ -90,8 +91,10 @@ export const addPost = (formData) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post("/api/posts", formData, config);
+    //Requisites: token + application/json + validation (backend --> text).
+    const res = await axios.post("/api/posts", formData, config); //returns the post created.
 
+    //The reducer add to the array of posts the newly created post.
     dispatch({
       type: ADD_POST,
       payload: res.data,
@@ -109,7 +112,8 @@ export const addPost = (formData) => async (dispatch) => {
 //Get Post:
 export const getPost = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/posts/${id}`);
+    //Requirements: token
+    const res = await axios.get(`/api/posts/${id}`); //returns the post
 
     dispatch({
       type: GET_POST,

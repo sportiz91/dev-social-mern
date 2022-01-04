@@ -35,7 +35,7 @@ const ProfileItem = ({
             <li key={index} className="developer-skills">
               <p class="text-primary">
                 <i class="fas fa-check text-primary"> </i>
-                {" " + skill}
+                {"  " + skill}
               </p>
             </li>
           );

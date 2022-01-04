@@ -1,3 +1,4 @@
+//Because we have a form in here, we need localState.
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -25,6 +26,7 @@ const CreateProfile = ({ createProfile }) => {
 
   const [displaySocialInputs, setDisplaySocialInputs] = useState(false);
 
+  //Desestructuring:
   const {
     company,
     website,

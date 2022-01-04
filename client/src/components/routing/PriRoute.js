@@ -1,4 +1,4 @@
-//This components makes some routes of Dashboard private.
+//This components makes some routes of the Dashboard private.
 //If this component wouldn't exist. An user could, for example, log in, see the dashboard, log out, go back and see the Dashboard.
 import React from "react";
 import PropTypes from "prop-types";

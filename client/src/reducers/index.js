@@ -5,7 +5,8 @@ import auth from "./auth";
 import profile from "./profile";
 import post from "./post";
 
-//combineReducers function takes as argument an object with all the reducers.
+//combineReducers function takes as argument an object with all the individual function reducers.
+//In this case we are doing: alert: alert, auth: auth, ...
 export default combineReducers({
   alert,
   auth,

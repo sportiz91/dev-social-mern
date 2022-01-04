@@ -1,14 +1,18 @@
 const express = require("express");
-const connectDB = require("./config/db"); //We import the db module to connect to mongo DB.
-const path = require("path");
+const connectDB = require("./config/db"); //We import the db module to connect to mongo DB. This imports the connectDB() function we defined earlier.
+const path = require("path"); //npm core module. We don't need to install it.
 
-const app = express();
+const app = express(); //Instantiate app.
 
-//Connect db:
-connectDB(); //Here we execute the function defined in db.js. This returns us a promise.
+//Connect to db:
+connectDB(); //Here we execute the function defined in db.js. Remember -> mongoose.connect(uri, options, callback) returns a promise.
 
 //Init middleware:
-app.use(express.json({ extended: false })); //This line allows us to get the req.body object that is sent in a POST Request.
+//app.use -> anytime we get ANY TYPE OF REQUEST to the described route, the middleware defined will execute.
+//It's different from app.get/app.post/app.put/app.delete, etc, because this are specific type of requests middlewares.
+//app.use(path, callback). If no path is defined, "/" (route) is used by default. So, if we define app.use with no path,
+//means the middleware is executed everytime you hit the page.
+app.use(express.json({ extended: false })); //This line allows us to get the req.body object that is sent in a Content-Type: application/json POST Request.
 
 //Define routes.
 //app.use binds middleware function (in this case, express.Router() of every endpoint)
@@ -23,10 +27,12 @@ if (process.env.NODE_ENV === "production") {
   //We want to be the index.html from /client/build/index.html the file we are gonna serve in production.
   app.use(express.static("client/build")); //We determine that the client/build folder to be the static
 
-  //For every route of the app, aside the routes defined above, we want to server the index.html file
+  //For every route of the app, aside the routes defined above (router routes), we want to server the index.html file
   //on the static folder.
+  //Makes sense: for /api/users, /api/auth, /api/profile & /api/posts there are some other middleware defined.
+  //So, every other request made to the server, ASIDE from the one defined above, will serve the index.html.
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html")); //load every route as parameters.
   });
 }
 

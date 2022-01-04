@@ -11,7 +11,7 @@ const User = require("../../models/User");
 const Post = require("../../models/Posts");
 
 //@route    GET api/profile/me
-//@desc     Get current users profile
+//@desc     Get current users profile (Get logged in user profile)
 //@access   Private
 //the api/profile is inteded to get all the profiles from people who registered and created a profile.
 //this route, on the other hand, only displays my current profile. We're getting the profile based on the user id which is in the token.
@@ -19,16 +19,24 @@ const Post = require("../../models/Posts");
 //So we have to bring the auth middleware
 router.get("/me", auth, async (req, res) => {
   try {
+    //If we do not populate, we obtain only the user property which is a reference to the objectId of the logged in user.
+    //If we populate "user" with no second parameter, we get all the fields from the user document associated.
+    //If we populate "user" with an array of fields as second objects, we obtain only the fields of the user document associated
+    //That we defined.
     const profile = await Profile.findOne({ user: req.user.id }).populate(
       "user",
       ["name", "avatar"]
     ); //If we logged in successfully and we have the token, we have a req.user created.
 
+    // console.log(profile); -> getting the profile with the user document associated too.
+
+    //This gets executed in the case we passed the auth middleware validation
+    //But no profile is created. So, an user is existing on the db, but without a profile created yet.
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
     }
 
-    res.json(profile);
+    res.json(profile); //server responds with the profile object.
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -104,7 +112,9 @@ router.post(
       //If the query operation returns a document, means that we have a document to update.
       //$set structure:
       //{$set: {field1: value1, field2: value2, ...}}
-      //So, in this case, we have the correct syntax: profile fields is: {company: ..., website: ..., ...}
+      //So, in this case, we have the correct syntax: profile fields is: {company: ..., website: ..., xxx: ...}
+      //The third parameter in Model.findOneAndUpdate is the options object. In this case, we are setting the new property to true
+      //Which implies that the modified document is gonna be returned.
       if (profile) {
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
@@ -112,13 +122,13 @@ router.post(
           { new: true }
         );
 
-        return res.json(profile);
+        return res.json(profile); //breaking the request here.
       }
 
       //If the profile is not found, that means we have to create a new profile asociated with the user:
       profile = new Profile(profileFields);
       await profile.save();
-      res.json(profile);
+      res.json(profile); //server sending the new profile created as response.
     } catch (err) {
       console.error(err.message); //console.error() can have a string or an object as argument. What goes inside is passed as an error in Chrome Developer Tools.
       //In this case, we are pointing to the message property of the err object. So, it's an string.
@@ -142,7 +152,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//@route    GET api/profile/user/:user_id
+//@route    GET api/profile/user/:user_id. Example: api/profile/user/321897321
 //@desc     Get profile by user ID
 //@access   Public
 //The :user_id is a placeholder. Meaning that is gonna be an object with the ID the users GET Request is doing.
@@ -224,7 +234,7 @@ router.put(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array });
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const { title, company, location, from, to, current, description } =
@@ -276,12 +286,15 @@ router.delete("/experience/:exp_id", auth, async (req, res) => {
     const profile = await Profile.findOne({ user: req.user.id });
 
     //2. Get remove index. This is the same as matching the :exp_id with the item id that the mapping is itering.
+    //The map part of the functions returns a new array with the id of every object experience the profile has.
+    //indexOf part gets the index where there is coincidence of array of ids with the url id.
+    //Example: removeIndex = 0.
     const removeIndex = profile.experience
       .map((item) => item.id)
       .indexOf(req.params.exp_id);
 
     //at index removeIndex, remove 1 item. This method overwrites the original array.
-    profile.experience.splice(removeIndex, 1);
+    profile.experience.splice(removeIndex, 1); //delete the object with the experience of the profile.
 
     await profile.save();
 
@@ -310,7 +323,7 @@ router.put(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array });
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const { school, degree, fieldofstudy, from, to, current, description } =

@@ -1,4 +1,4 @@
-//Because we are in a form, we use local state (useState).
+//For every form i'll be using local state.
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import Alert from "../layout/Alert";
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
-  // console.log("re-render"); -> desactivar para ver la cantidad de re-renders del functional component.
+  // console.log("re-render"); -> see the # of re-render of the component.
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,11 +17,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   });
 
   const { name, email, password, password2 } = formData;
-
-  //Importante destacar, el [e.target.name] lo tenemos que desestructurar como array. Si nos fijamos
-  //El console.log del e.target, veremos que nos da [object HTMLInputElement], es decir,
-  //Un array que adentro tiene un objeto HTMLInputElement, donde las propiedades vendrían a ser los atributos
-  //Determinados en el HTML Input Element.
 
   const onChange = (e) => {
     // console.log(`e.target: ${e.target}`); -> returns [object HTMLInputElement].
@@ -35,14 +30,18 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       setAlert("Password do not match", "danger");
     } else {
       // console.log({ name, email, password }); returns -> {name: 'Name', email: 'email@gmail.com', password: 'xxxxxx'}
+      //We pass the variables as an object with variables cuz register function desestructure an object.
       register({ name, email, password });
     }
   };
 
+  //When we registered successfully, this component will be re-loaded and this conditional will apply. So, we are not be able to see the Register component
+  //anymore. The, profile_error action will be shoted because when we register for the first time we don't have a profile.
   if (isAuthenticated) {
     return <Navigate replace to="/dashboard" />;
   }
 
+  //For every input: name = name of the variable we defined in state. value = state. Calls onChange
   return (
     <section className="container">
       <Alert />

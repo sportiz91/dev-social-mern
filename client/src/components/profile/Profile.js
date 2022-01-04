@@ -21,6 +21,9 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
     getProfileById(id);
   }, [getProfileById]);
 
+  //auth.user._id === profile.user._id -> basically means if auth user is the same as the profile we are viewing.
+  //In that case, we get another button, which is Edit Profile button.
+  //Every child component will get all the profile state.
   return (
     <section className="container">
       {profile === null || loading ? (

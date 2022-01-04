@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 //IMPORTANT -> We want to create a reference to the user model, because every profile will be associated with the user.
 //Status -> Jr Developer, Sr Developer, etc. [String] = an array of strings. Example. "PHP, JavaScript, Python", etc.
+//Skills = array with strings.
+//Experience = array of objects. Every object in the array has certain properties defined.
+//Social = object with properties. Every property is a different social media.
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,

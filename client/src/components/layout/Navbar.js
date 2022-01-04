@@ -60,8 +60,11 @@ Navbar.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
+//mapStateToProps function gets passed only 1 parameter which is the global state.
+//and returns an object with key (name) and value (state we want in the component)
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
+//mapStateToProps is a function, mapStateToDipsatch are passed as objects.
 export default connect(mapStateToProps, { logout })(Navbar);

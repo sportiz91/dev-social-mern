@@ -181,11 +181,13 @@ router.put("/unlike/:id", auth, async (req, res) => {
     }
 
     //Get remove index:
+    //Map part -> new array with ids of users.
+    //indexOf part -> get the position of that array where the id matches the req.user.id coming from the token.
     const removeIndex = post.likes
       .map((like) => like.user.toString())
       .indexOf(req.user.id);
 
-    post.likes.splice(removeIndex, 1);
+    post.likes.splice(removeIndex, 1); //remove that object from the array of likes.
 
     await post.save();
 

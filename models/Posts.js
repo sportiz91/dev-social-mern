@@ -2,7 +2,7 @@
 const moongose = require("mongoose");
 const Schema = moongose.Schema;
 
-//user -> User id that created the post (User model)
+//user -> User id that created the post (User model) -> User model -> name, email, avatar (less password)
 //text -> Text of the post
 //name -> Name of the user that created the post
 //avatar -> image of the user taht created the post (we want avatar in here because if we delete the account we want to be able to see his posts nonetheless)

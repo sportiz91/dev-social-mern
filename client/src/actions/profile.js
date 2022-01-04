@@ -14,6 +14,7 @@ import {
 //getCurrentProfile gets called as soon as we are redirected the dashboard component.
 export const getCurrentProfile = () => async (dispatch) => {
   try {
+    //Requisites: token.
     const res = await axios.get("/api/profile/me"); //returns logged in user profile. No need of id. JWT have user id encrypted.
 
     dispatch({
@@ -34,11 +35,12 @@ export const getProfiles = () => async (dispatch) => {
   //state first.
 
   try {
+    //Requisites: none
     const res = await axios.get("/api/profile");
 
     dispatch({
       type: GET_PROFILES,
-      payload: res.data,
+      payload: res.data, //array of objects with every profile (with the user name and avatar populated from the User model)
     });
   } catch (err) {
     dispatch({
@@ -51,11 +53,12 @@ export const getProfiles = () => async (dispatch) => {
 //Get profile by id:
 export const getProfileById = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/profile/user/${userId}`);
+    //Requisites: none
+    const res = await axios.get(`/api/profile/user/${userId}`); //returns profile (profile fields + user model name + avatar)
 
     dispatch({
       type: GET_PROFILE,
-      payload: res.data,
+      payload: res.data, //profile
     });
   } catch (err) {
     dispatch({
@@ -68,7 +71,7 @@ export const getProfileById = (userId) => async (dispatch) => {
 //Get GitHub Repos:
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/profile/github/${username}`);
+    const res = await axios.get(`/api/profile/github/${username}`); //res.data -> array with last 5 repos (objects)
 
     dispatch({
       type: GET_REPOS,
@@ -95,6 +98,7 @@ export const createProfile =
         },
       };
 
+      //Requisites: token + header with content-type: application/json
       const res = await axios.post("/api/profile", formData, config); //returns the profile updated or created.
 
       dispatch({
@@ -108,6 +112,7 @@ export const createProfile =
       );
 
       //If i'm creating a new profile, redirect to dashboard after success.
+      //If I'm editing an existing profile, then, edit profile page persists.
       //If i'm redirecting in an action, I can't use <Navigate /> component.
       //I have to use the useNavigate hook in this case.
       if (!edit) {
@@ -140,7 +145,8 @@ export const addExperience = (formData, navigate) => async (dispatch) => {
       },
     };
 
-    const res = await axios.put("/api/profile/experience", formData, config);
+    //Requisites: token + application/json + validations (backend)
+    const res = await axios.put("/api/profile/experience", formData, config); //returns the updated profile with new experience added to the array of experiences.
 
     dispatch({
       type: "UPDATE_PROFILE",
@@ -149,7 +155,7 @@ export const addExperience = (formData, navigate) => async (dispatch) => {
 
     dispatch(setAlert("Experience Added", "success"));
 
-    navigate("/dashboard");
+    navigate("/dashboard"); //Once finished updating, navigate to dashboard.
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -200,7 +206,8 @@ export const addEducation = (formData, navigate) => async (dispatch) => {
 //Delete Experience:
 export const deleteExperience = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/profile/experience/${id}`);
+    //Requisites: token + id of experience in url.
+    const res = await axios.delete(`/api/profile/experience/${id}`); //returns the "updated" profile (the array of experiences will not have previous exp)
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -219,7 +226,8 @@ export const deleteExperience = (id) => async (dispatch) => {
 //Delete Education:
 export const deleteEducation = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/profile/education/${id}`);
+    //Requisites: token + id of education in url.
+    const res = await axios.delete(`/api/profile/education/${id}`); //returns the "updated" profile (the array of education will not have previous edu)
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -239,12 +247,15 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = (id) => async (dispatch) => {
   if (window.confirm("Are you sure? This can NOT be undone")) {
     try {
-      await axios.delete("/api/profile");
+      //Requisites: token
+      await axios.delete("/api/profile"); //returns {msg: "User deleted"}
 
+      //Clears profile (individual) from profile state.
       dispatch({
         type: CLEAR_PROFILE,
       });
 
+      //Removing token from localStorage and resetting the auth parameters.
       dispatch({
         type: DELETE_ACCOUNT,
       });

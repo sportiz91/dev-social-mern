@@ -23,6 +23,13 @@ const initialState = {
 
 // console.log(initialState);
 
+//Reducers are functions that take the current state and an action as arguments, and return a new state result.
+//(state, action) => newState.
+//Rules of Reducers:
+// They should only calculate the new state value based on the state and action arguments
+// They are not allowed to modify the existing state. Instead, they must make immutable updates, by copying the existing state and making changes to the copied values.
+// They must not do any asynchronous logic or other "side effects"
+
 //When REGISTER_SUCCESSS or LOGIN_SUCCESS, the user's token gets saved in localStorage.
 const auth = function (state = initialState, action) {
   const { type, payload } = action;
@@ -32,10 +39,11 @@ const auth = function (state = initialState, action) {
   switch (type) {
     case USER_LOADED:
       return {
-        ...state, //remember, state is inmutable, so always returns previous state.
+        ...state, //remember, state is inmutable, so always returns previous state + changes to the variables.
         isAuthenticated: true,
-        loading: false,
-        user: payload,
+        loading: false, //if we arrive to this stage, loading is false because we succesfully proccessed the request.
+        user: payload, //payload was res.data -> {name: ..., email: ..., avatar: ..., date: ..., _id: ..., }
+        //-> everything less password from User model defined in backend!
       };
 
     //REGISTER_SUCCESS -> payload: {token: 123456}. That's why we "...payload" below.

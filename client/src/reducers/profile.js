@@ -46,6 +46,8 @@ const profile = function (state = initialState, action) {
         profile: null,
       };
 
+    //Clear profile is used when: user visits developers (because if previously he has visited a developers page, we have to clear all the repos).
+    //When user wants to delete permanently his account from dashboard (in this case, we can't have his state saved).
     case CLEAR_PROFILE:
       return {
         ...state,

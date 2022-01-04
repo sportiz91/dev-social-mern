@@ -69,6 +69,8 @@ router.post(
       //We create a new instance of the User model, so called "a document".
       //This doesn't save the user in the DB. It only creates an instance. We need to user.save() in order to save the instance in the DB.
       //So... Before saving the User instance in the DB, we wanna encrypt the password using bcrypt.
+      //Remember, user model have the following fields: name, email, avatar, password, date. In this case, we are not passing the
+      //date, so default value (now) gonna be used to create the new instance/document.
       user = new User({
         name,
         email,
@@ -82,6 +84,8 @@ router.post(
       //Need to do something like: bcrypt.genSalt(10).then(bcrypt.hash(password, salt)).then() ... and goes on.
       const salt = await bcrypt.genSalt(10); //The more rounds you do, the more secure. 10 rounds are recommended by docs.
 
+      //Takes as first parameter the plain text password written by the user.
+      //As second parameter we get the salt Rounds.
       user.password = await bcrypt.hash(password, salt);
 
       await user.save(); //This will gives us a promise. Then, we can use the promise to consume the data later on, when we create the payload in the request.
@@ -119,35 +123,5 @@ router.post(
   }
 );
 
-//Exportamos el módulo.
+//Exporting module.
 module.exports = router;
-
-//validation error object
-// {
-//   "errors": [
-//       {
-//           "msg": "Please include a valid email",
-//           "param": "email",
-//           "location": "body"
-//       },
-//       {
-//           "msg": "Please enter a password with 6 or more characters",
-//           "param": "password",
-//           "location": "body"
-//       }
-//   ]
-// }
-
-//Ahora que tenemos las rutas definidas para todos los .js, lo que tendremos que hacer es habilitar que server.js pueda leer dichas rutas
-//app.use("/api/users", require("./routes/api/users"));
-//-> lo que hace la línea anterior es que el router.get("/") pertenezca a la ruta /api/users.
-//Si luego queremos por ejemplo un api/users/register (por poner un ejemplo), solo tendré que hacer router.get("/register") en este file.
-//Queremos mantener nuestra API Restful. Es decir, si hace un GET Request va a obtener los usuarios. Si hace un POST Request va a alterar la base de datos.
-//Define routes:
-// app.use("/api/users", require("./routes/api/users"));
-// app.use("/api/auth", require("./routes/api/auth"));
-// app.use("/api/profile", require("./routes/api/profile"));
-// app.use("/api/posts", require("./routes/api/posts"));
-//Una vez definidas las rutas como se muestra arriba, deberíamos poder hacer los GET Requests a las rutas definidas -> api/users, api/auth, api/profile, api/posts.
-
-//En este caso, tenemos definidas las middleware functions en el routing level (no en el App level).

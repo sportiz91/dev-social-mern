@@ -18,24 +18,27 @@ import "./App.css";
 
 import { Provider } from "react-redux";
 
+//Cuz we're importing store here, we can access store dispatch method in here.
 import store from "./store";
 
+//setAuthToken is used to save token in global headers for every request.
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 
-//if token exists in localStorage, then we need to save it in the common headers of all requests.
+//if token exists in localStorage, then we need to save it in the common headers of all axios requests.
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
 //Everything needs to be wrapped in <Provider store={store} /> component for Redux to work in our whole App.
 //Everything needs to be wrapped in <Router> component for react-router-dom to work.
-//Beware of react-router-dom v6! Changes several old components.
-//In this case, I have direct access to store.dispatch method. In cases in which I have no access to store, I will
+//Beware of react-router-dom v6! Changes in several old components.
+//In this case, I have direct access to store.dispatch method. In cases in which I have no access to the store, I will
 //need to connect the component to Redux. (connect method)
+//store is an object with the following methods: getState(), dispatch(action), subscribe(listener), replaceReducer(nextReducer)
 const App = () => {
   useEffect(() => {
-    store.dispatch(loadUser()); //user needs to be loaded when loading main app.
+    store.dispatch(loadUser()); //user needs to be loaded when loading main app. We are putting in state the user data with isAuth + loading false.
   }, []);
 
   return (

@@ -24,6 +24,7 @@ const Login = ({ login, isAuthenticated }) => {
   };
 
   //If user isAuthenticated, then, navigate to dashboard.
+  //LOGIN_SUCCESS -> USER_LOADED -> GET_PROFILE actions shot.
   if (isAuthenticated) {
     return <Navigate replace to="/dashboard" />;
   }

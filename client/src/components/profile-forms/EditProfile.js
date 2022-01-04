@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+//Similar to CreateProfile.js component, but here we are loading currentProfile as component loads and loading the data of the profile.
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";

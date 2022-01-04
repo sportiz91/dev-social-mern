@@ -20,6 +20,7 @@ const AddExperience = ({ addExperience }) => {
 
   const [toDateDisabled, setToDateDisabled] = useState(false);
 
+  //Desestructuring state object.
   const { company, title, location, from, to, current, description } = formData;
 
   const onChange = (e) =>
